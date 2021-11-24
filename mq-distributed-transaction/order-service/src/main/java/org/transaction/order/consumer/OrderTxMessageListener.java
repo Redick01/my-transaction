@@ -18,11 +18,20 @@ public class OrderTxMessageListener implements RocketMQLocalTransactionListener 
 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object o) {
+
+        // 执行本地事务
+
+        // 提交订单并保存事务消息
+
+        // 返回commit或rollback
+
         return null;
     }
 
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
+        // 根据事务号检查是否存在本地事务
+        // 存在就commit，否则unknown
         return null;
     }
 }

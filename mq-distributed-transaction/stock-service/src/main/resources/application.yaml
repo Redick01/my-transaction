@@ -8,7 +8,7 @@ server:
 
 
 mybatis-plus:
-  mapper-locations: io.transaction.stock.mapper.*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  mapper-locations: classpath*:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: io.transaction.stock.entity.*   # 注意：对应实体类的路径
 
 
