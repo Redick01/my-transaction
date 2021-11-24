@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "mybatis-plus.global-config.db-config.field-strategy",
+      "type": "java.lang.String",
+      "description": "Description for mybatis-plus.global-config.db-config.field-strategy."
+    },
+    {
+      "name": "mybatis-plus.global-config.db-config.db-type",
+      "type": "java.lang.String",
+      "description": "Description for mybatis-plus.global-config.db-config.db-type."
+    }
+  ] }

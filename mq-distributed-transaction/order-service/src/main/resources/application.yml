@@ -1,0 +1,22 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /order
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    include: db
+    active: db
+  output:
+    ansi:
+      enabled: detect
+  application:
+    name: order-service-svc
+rocketmq:
+  name-server: 192.168.58.45:9876
+  producer:
+    group: order-group
