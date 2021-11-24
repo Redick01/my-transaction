@@ -41,5 +41,5 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   configuration:
     jdbc-type-for-null: 'null'
-  mapper-locations: io.transaction.order.mapper.*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  mapper-locations: classpath*:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: io.transaction.order.entity.*   # 注意：对应实体类的路径
