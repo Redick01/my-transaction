@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan(value = {"org.transaction.order.mapper"})
+@MapperScan(value = {"org.transaction.stock.mapper"})
 public class MyBatisConfiguration {
 
     @Bean

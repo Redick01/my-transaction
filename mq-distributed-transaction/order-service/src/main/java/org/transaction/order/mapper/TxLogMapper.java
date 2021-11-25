@@ -1,30 +1,13 @@
 package org.transaction.order.mapper;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import org.transaction.order.entity.TxLog;
-import org.transaction.order.entity.TxLogExample;
 
+@Repository
 public interface TxLogMapper {
-    int countByExample(TxLogExample example);
 
-    int deleteByExample(TxLogExample example);
+    int getCount(@Param("txNo") String txNo);
 
-    int deleteByPrimaryKey(Long id);
-
-    int insert(TxLog record);
-
-    int insertSelective(TxLog record);
-
-    List<TxLog> selectByExample(TxLogExample example);
-
-    TxLog selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") TxLog record, @Param("example") TxLogExample example);
-
-    int updateByExample(@Param("record") TxLog record, @Param("example") TxLogExample example);
-
-    int updateByPrimaryKeySelective(TxLog record);
-
-    int updateByPrimaryKey(TxLog record);
+    int saveTxLog(@Param("txLog")TxLog txLog);
 }

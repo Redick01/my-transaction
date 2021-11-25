@@ -27,4 +27,8 @@ public interface StockMapper {
     int updateByPrimaryKeySelective(Stock record);
 
     int updateByPrimaryKey(Stock record);
+
+    Stock getStockByProductId(@Param("productId") Long productId);
+
+    int updateStock(@Param("productId") Long productId, @Param("payCount") Integer payCount);
 }

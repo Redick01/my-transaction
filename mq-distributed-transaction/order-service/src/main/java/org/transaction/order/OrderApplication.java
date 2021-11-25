@@ -12,6 +12,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class OrderApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext configApplicationContext = SpringApplication.run(OrderApplication.class, args);
+        SpringApplication.run(OrderApplication.class, args);
     }
 }

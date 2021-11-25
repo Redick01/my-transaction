@@ -27,4 +27,8 @@ public interface TxLogMapper {
     int updateByPrimaryKeySelective(TxLog record);
 
     int updateByPrimaryKey(TxLog record);
+
+    int getCount(@Param("txNo") String txNo);
+
+    int saveTxLog(@Param("txLog")TxLog txLog);
 }

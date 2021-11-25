@@ -32,4 +32,13 @@ public class TxLog {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "TxLog{" +
+                "id=" + id +
+                ", txNo='" + txNo + '\'' +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

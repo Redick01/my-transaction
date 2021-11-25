@@ -11,6 +11,7 @@ public interface StockService {
     /**
      * 减少库存
      * @param txMessage 事务消息
+     * @throws Exception 异常
      */
-    void deleteStock(TxMessage txMessage);
+    void deleteStock(TxMessage txMessage) throws Exception;
 }

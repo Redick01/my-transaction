@@ -178,4 +178,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from tx_log where tx_no = #{txNo}
+  </select>
+
+  <insert id="saveTxLog" parameterType="org.transaction.stock.entity.TxLog">
+    insert into `tx_log` (tx_no, create_time) values (#{txLog.txNo}, #{txLog.createTime});
+  </insert>
 </mapper>

@@ -52,4 +52,15 @@ public class Order {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", productId=" + productId +
+                ", payCount=" + payCount +
+                ", createTime=" + createTime +
+                '}';
+    }
 }
