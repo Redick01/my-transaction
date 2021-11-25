@@ -6,10 +6,14 @@
     select
     id as id, order_no as orderNo, pay_count as payCount, create_time as createTimes
     from `order`
-    where order_no = #{orderNo}
+    where order_no = #{orderNo};
   </select>
 
   <insert id="saveOrder" parameterType="org.transaction.order.entity.Order">
     insert into `order` (order_no, product_id, pay_count, create_time) values (#{order.orderNo}, #{order.productId}, #{order.payCount}, #{order.createTime});
   </insert>
+
+  <delete id="deleteByOrderNo">
+    delete from `order` where order_no = #{orderNo};
+  </delete>
 </mapper>

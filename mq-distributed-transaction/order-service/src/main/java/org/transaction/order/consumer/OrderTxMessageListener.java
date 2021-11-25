@@ -10,6 +10,7 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.transaction.order.consumer.message.TxMessage;
+import org.transaction.order.mapper.TxLogMapper;
 import org.transaction.order.service.OrderService;
 
 /**
@@ -23,9 +24,12 @@ public class OrderTxMessageListener implements RocketMQLocalTransactionListener 
 
     private final OrderService orderService;
 
+    private final TxLogMapper txLogMapper;
+
     @Autowired
-    public OrderTxMessageListener(OrderService orderService) {
+    public OrderTxMessageListener(OrderService orderService, TxLogMapper txLogMapper) {
         this.orderService = orderService;
+        this.txLogMapper = txLogMapper;
     }
 
     @Override
@@ -51,8 +55,14 @@ public class OrderTxMessageListener implements RocketMQLocalTransactionListener 
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
         // 根据事务号检查是否存在本地事务
+        TxMessage txMessage = getTxMessage(message);
+        int count = txLogMapper.getCount(txMessage.getTxNo());
+        if (0 != count) {
+            log.info("存在事务，可以提交事务消息：[{}]", txMessage.getTxNo());
+            return RocketMQLocalTransactionState.COMMIT;
+        }
         // 存在就commit，否则unknown
-        return null;
+        return RocketMQLocalTransactionState.UNKNOWN;
     }
 
     private TxMessage getTxMessage(Message message) {

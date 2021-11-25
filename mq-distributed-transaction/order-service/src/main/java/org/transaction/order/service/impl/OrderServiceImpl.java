@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Date date = new Date();
         // 生成订单
         Order order = new Order();
-        order.setOrderNo(UUID.randomUUID().toString());
+        order.setOrderNo(txMessage.getOrderNo());
         order.setCreateTime(date);
         order.setPayCount(txMessage.getPayCount());
         order.setProductId(txMessage.getProductId());
@@ -74,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
         txMessage.setProductId(productId);
         txMessage.setPayCount(payCount);
         txMessage.setTxNo(txNo);
+        txMessage.setOrderNo(UUID.randomUUID().toString());
         String jsonString = JSONObject.toJSONString(txMessage);
         Message<String> msg = MessageBuilder.withPayload(jsonString).build();
         rocketMQTemplate.sendMessageInTransaction("tx_order_group", "topic_txmsg", msg, null);

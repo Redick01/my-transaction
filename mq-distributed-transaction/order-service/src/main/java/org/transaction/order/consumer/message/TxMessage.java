@@ -29,4 +29,9 @@ public class TxMessage implements Serializable {
      * 全局事务编号
      */
     private String txNo;
+
+    /**
+     * 订单号
+     */
+    private String orderNo;
 }

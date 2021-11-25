@@ -3,6 +3,8 @@ package org.transaction.stock.consumer;
 import com.alibaba.fastjson.JSONObject;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -48,13 +50,24 @@ public class StockTxMessageConsumer implements RocketMQListener<String> {
 
     }
 
-    private TxMessage deserialization(String msg) {
-        return JSONObject.parseObject(msg, TxMessage.class);
-    }
-
     private void rollback(TxMessage txMessage) {
         String jsonString = JSONObject.toJSONString(txMessage);
         Message<String> msg = MessageBuilder.withPayload(jsonString).build();
-        rocketMQTemplate.sendMessageInTransaction("tx_order_group", "topic_txmsg", msg, null);
+        rocketMQTemplate.asyncSend("topic_tx_rollback_msg", msg, new SendCallback() {
+            @Override
+            public void onSuccess(SendResult sendResult) {
+                log.info("回滚消息发送结果：[{}]", sendResult.getSendStatus());
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                throwable.printStackTrace();
+                log.error("回滚消息发送异常");
+            }
+        });
+    }
+
+    private TxMessage deserialization(String msg) {
+        return JSONObject.parseObject(msg, TxMessage.class);
     }
 }
