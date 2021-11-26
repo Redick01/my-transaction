@@ -32,3 +32,5 @@ spring:
 
 rocketmq:
   name-server: 192.168.58.45:9876
+  producer:
+      group: stock-group

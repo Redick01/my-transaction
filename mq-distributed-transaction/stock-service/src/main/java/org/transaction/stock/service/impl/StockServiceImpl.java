@@ -53,7 +53,7 @@ public class StockServiceImpl implements StockService {
         log.info("扣减库存成功");
         // 记录事务日志
         TxLog txLog = new TxLog();
-        txLog.setTxNo(txLog.getTxNo());
+        txLog.setTxNo(txMessage.getTxNo());
         txLog.setCreateTime(date);
         txLogMapper.saveTxLog(txLog);
         log.info("记录事务日志成功");
