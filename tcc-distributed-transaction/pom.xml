@@ -2,17 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>my-transaction</artifactId>
+        <groupId>org.transaction</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.transaction</groupId>
-    <artifactId>my-transaction</artifactId>
+    <artifactId>tcc-distributed-transaction</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>mq-distributed-transaction</module>
-        <module>spring-transaction</module>
-        <module>tcc-distributed-transaction</module>
-        <module>eureka-server</module>
+        <module>order-tcc-service</module>
+        <module>stock-tcc-service</module>
+        <module>stock-api</module>
     </modules>
 
     <properties>
@@ -21,11 +23,10 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>3.8.2</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
         </dependency>
     </dependencies>
 </project>

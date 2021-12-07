@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.transaction.springtx.entity.order.Order;
 import org.transaction.springtx.exception.TransactionException;
 import org.transaction.springtx.mapper.order.OrderMapper;
-import org.transaction.springtx.mapper.stock.StockMapper;
+import org.transaction.springtx.service.stock.StockService;
 
 import java.util.Date;
 import java.util.UUID;
@@ -22,12 +22,13 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderMapper orderMapper;
-    private final StockMapper stockMapper;
+    private final StockService stockService;
+
 
     @Autowired
-    public OrderService(OrderMapper orderMapper, StockMapper stockMapper) {
+    public OrderService(OrderMapper orderMapper, StockService stockService) {
         this.orderMapper = orderMapper;
-        this.stockMapper = stockMapper;
+        this.stockService = stockService;
     }
 
     @Transactional(transactionManager = "orderTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -40,20 +41,10 @@ public class OrderService {
         order.setPayCount(payCount);
         if (orderMapper.saveOrder(order) > 0) {
             log.info("保存订单成功");
-            deleteStock(productId, payCount);
+            stockService.deleteStock(productId, payCount);
         } else {
             log.info("保存订单失败");
             throw new TransactionException("FAILED", "保存订单失败");
-        }
-    }
-
-    @Transactional(transactionManager = "orderTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public void deleteStock(Long productId, Integer payCount) {
-        if (stockMapper.updateStock(productId, payCount) > 0) {
-            log.info("扣减库存成功");
-        } else {
-            log.info("扣减库存失败");
-            throw new TransactionException("FAILED", "扣减库存失败");
         }
     }
 }
