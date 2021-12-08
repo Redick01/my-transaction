@@ -1,6 +1,6 @@
 package org.transaction.tcc.order.config;
 
-import com.ruubypay.log.filter.feign.FeignFilter;
+import com.ruubypay.log.filter.feign.FeignRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignFilterConfiguration {
 
     @Bean
-    public FeignFilter getFeignFilter() {
-        return new FeignFilter();
+    public FeignRequestFilter getFeignFilter() {
+        return new FeignRequestFilter();
     }
 }

@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.ruubypay.miss</groupId>
             <artifactId>ruubypay-log-spring-boot-starter</artifactId>
-            <version>2.1-RELEASE</version>
+            <version>2.2-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.ruubypay.miss</groupId>

@@ -1,6 +1,7 @@
 package org.transaction.tcc.order.controller;
 
 import com.ruubypay.log.annotation.LogMarker;
+import com.ruubypay.log.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,9 @@ public class OrderController {
     @PostMapping("/sc-tcc/submitOrder")
     @LogMarker(businessDescription = "提交订单", interfaceName = "/sc-tcc/submitOrder")
     public String submitOrder(@RequestBody SubmitOrderDTO dto) {
-        return stockService.deleteStock(dto);
+        log.info(LogUtil.funcStartMarker(dto), "调用库存服务扣减库存");
+        String result = stockService.deleteStock(dto);
+        log.info(LogUtil.funcEndMarker(result), "库存服务返回结果");
+        return result;
     }
 }
