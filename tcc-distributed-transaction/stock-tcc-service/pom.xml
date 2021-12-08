@@ -31,6 +31,17 @@
             <groupId>com.ruubypay.miss</groupId>
             <artifactId>ruubypay-log-spring-boot-starter</artifactId>
             <version>2.4-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.ruubypay.miss</groupId>
+                    <artifactId>ruubypay-log-helper</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.ruubypay.miss</groupId>
+            <artifactId>ruubypay-log-helper</artifactId>
+            <version>2.0.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -49,6 +60,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-logback-1.x</artifactId>
+            <version>8.4.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -64,7 +80,114 @@
     </dependencyManagement>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}/classes</targetPath>
+                <excludes>
+                    <exclude>config-sample/*</exclude>
+                    <exclude>**/*.java</exclude>
+                    <exclude>generatorConfig.xml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}/</targetPath>
+                <excludes>
+                    <exclude>config-sample/*</exclude>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/*.zip</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <!-- 是否替换资源中的属性-->
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>config</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>**/config-sample/*.sample</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/config-sample</directory>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/release</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib</classpathPrefix>
+                            <mainClass>org.transaction.tcc.stock.StockServer</mainClass>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                    <excludes>
+                        <exclude>**/*.zip</exclude>
+                        <exclude>**/*.properties.sample</exclude>
+                        <exclude>generatorConfig.xml</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/*.md</exclude>
+                    </excludes>
+                    <outputDirectory>${project.build.directory}/release</outputDirectory>
+                </configuration>
+            </plugin>
+            <!--拷贝依赖包到指定位置-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/release/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
