@@ -1,5 +1,6 @@
 package org.transaction.order.controller;
 
+import com.ruubypay.log.annotation.LogMarker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/getPayCount")
+    @LogMarker(businessDescription = "获取可购买数量", interfaceName = "/getPayCount")
     public String getPayCount(String orderNo) {
         if (StringUtils.isBlank(orderNo)) {
             return "NO TRANS";
@@ -40,6 +42,7 @@ public class OrderController {
     }
 
     @PostMapping("/submitOrder")
+    @LogMarker(businessDescription = "提交订单", interfaceName = "/submitOrder")
     public String submitOrder(@RequestBody SubmitOrderDTO dto) {
         log.info("开始提交订单");
         try {

@@ -1,6 +1,7 @@
 package org.transaction.order.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ruubypay.log.filter.mq.MqWrapperBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,8 @@ public class OrderServiceImpl implements OrderService {
         txMessage.setPayCount(payCount);
         txMessage.setTxNo(txNo);
         txMessage.setOrderNo(UUID.randomUUID().toString());
-        String jsonString = JSONObject.toJSONString(txMessage);
+        MqWrapperBean<TxMessage> mqWrapperBean = new MqWrapperBean<>(txMessage);
+        String jsonString = JSONObject.toJSONString(mqWrapperBean);
         Message<String> msg = MessageBuilder.withPayload(jsonString).build();
         rocketMQTemplate.sendMessageInTransaction("tx_order_group", "topic_txmsg", msg, null);
     }

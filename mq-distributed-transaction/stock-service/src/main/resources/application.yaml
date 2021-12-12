@@ -31,6 +31,7 @@ spring:
       force: true
 
 rocketmq:
-  name-server: 192.168.58.45:9876
+  # name-server: 192.168.58.45:9876
+  name-server: 192.168.124.11
   producer:
       group: stock-group

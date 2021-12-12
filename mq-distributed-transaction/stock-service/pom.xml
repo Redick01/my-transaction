@@ -44,6 +44,23 @@
             <artifactId>rocketmq-spring-boot-starter</artifactId>
             <version>2.0.2</version>
         </dependency>
+        <!-- 如易行基础日志组件 -->
+        <dependency>
+            <groupId>com.ruubypay.miss</groupId>
+            <artifactId>ruubypay-log-spring-boot-starter</artifactId>
+            <version>2.4-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.ruubypay.miss</groupId>
+                    <artifactId>ruubypay-log-helper</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.ruubypay.miss</groupId>
+            <artifactId>ruubypay-log-helper</artifactId>
+            <version>2.0.6-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>

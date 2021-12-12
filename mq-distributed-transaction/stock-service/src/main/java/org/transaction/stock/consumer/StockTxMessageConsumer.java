@@ -1,12 +1,16 @@
 package org.transaction.stock.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ruubypay.log.filter.mq.MqWrapperBean;
+import com.ruubypay.log.filter.mq.apacherocketmq.MqConsumer;
+import com.ruubypay.log.filter.mq.apacherocketmq.MqConsumerProcessor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -39,14 +43,25 @@ public class StockTxMessageConsumer implements RocketMQListener<String> {
     public void onMessage(String s) {
         // 根据消息扣减库存
         log.info("开始扣减库存");
-        TxMessage txMessage = deserialization(s);
-        try {
-            stockService.deleteStock(txMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.info("发生异常，通知上游回滚");
-            rollback(txMessage);
-        }
+        MqWrapperBean mqWrapperBean = deserialization(s);
+        MqConsumerProcessor.process(mqWrapperBean, new MqConsumer() {
+            @Override
+            public void consume(Object o) {
+                try {
+                    stockService.deleteStock(getTxMessage(o.toString())) ;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.info("发生异常，通知上游回滚");
+                    rollback((TxMessage) o);
+                }
+            }
+
+            @Override
+            public RocketMQLocalTransactionState localTransactionConsume(Object o) {
+                return null;
+            }
+        });
+
 
     }
 
@@ -67,7 +82,11 @@ public class StockTxMessageConsumer implements RocketMQListener<String> {
         });
     }
 
-    private TxMessage deserialization(String msg) {
-        return JSONObject.parseObject(msg, TxMessage.class);
+    private MqWrapperBean deserialization(String msg) {
+        return JSONObject.parseObject(msg, MqWrapperBean.class);
+    }
+
+    private TxMessage getTxMessage(String message) {
+        return JSONObject.parseObject(message, TxMessage.class);
     }
 }

@@ -9,8 +9,9 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>${STDOUT_LEVEL}</level>
         </filter>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] -- [%-5p]: [%c] -- %m%n</pattern>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
     </appender>
     <!-- INFO级别的日志 -->
@@ -31,8 +32,9 @@
             <MaxHistory>${FILE_HISTORY}</MaxHistory>
             <totalSizeCap>${FILE_TOTAL_SIZE}</totalSizeCap>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] -- [%-5p]: [%c] -- %m%n</pattern>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
         <prudent>false</prudent>
     </appender>
@@ -55,8 +57,9 @@
             <MaxHistory>${FILE_DEBUG_HISTORY}</MaxHistory>
             <totalSizeCap>${FILE_DEBUG_TOTAL_SIZE}</totalSizeCap>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] -- [%-5p]: [%c] -- %m%n</pattern>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
         <prudent>false</prudent>
     </appender>
@@ -79,17 +82,23 @@
             <MaxHistory>${FILE_ERROR_HISTORY}</MaxHistory>
             <totalSizeCap>${FILE_ERROR_TOTAL_SIZE}</totalSizeCap>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] -- [%-5p]: [%c] -- %m%n</pattern>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
         <prudent>false</prudent>
     </appender>
 
     <!-- 日志输出级别 -->
     <logger name="io.netty" level="ERROR"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.mybatis" level="ERROR"/>
     <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.jboss" level="ERROR"/>
     <logger name="javax" level="ERROR"/>
     <logger name="com.fasterxml" level="ERROR"/>
+    <logger name="com.alibaba" level="WARN"/>
+    <logger name="com.netflix" level="WARN"/>
 
     <root>
         <appender-ref ref="STDOUT"/>
