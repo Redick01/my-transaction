@@ -23,10 +23,11 @@ public class StockService {
         this.stockMapper = stockMapper;
     }
 
-    @Transactional(transactionManager = "orderTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(transactionManager = "stockTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void deleteStock(Long productId, Integer payCount) {
         if (stockMapper.updateStock(productId, payCount) > 0) {
             log.info("扣减库存成功");
+            throw new TransactionException("FAILED", "异常");
         } else {
             log.info("扣减库存失败");
             throw new TransactionException("FAILED", "扣减库存失败");
