@@ -33,6 +33,12 @@ id, tx_no(64), create_time
 
 8. order服务监听回滚消息，执行回滚
 
+## spring-transaction 演示spring事务传播和失效
+
+
+
+
+
 
 
 
