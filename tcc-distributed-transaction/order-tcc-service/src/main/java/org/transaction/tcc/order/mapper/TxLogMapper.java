@@ -7,7 +7,11 @@ import org.transaction.tcc.order.entity.TxLog;
 @Repository
 public interface TxLogMapper {
 
-    int getCount(@Param("txNo") String txNo);
+    int getCount(@Param("txNo") String txNo, @Param("txType") Integer txType);
 
-    int saveTxLog(@Param("txLog") TxLog txLog);
+    int saveTryTxLog(@Param("txLog") TxLog txLog);
+
+    int saveConfirmTxLog(@Param("txLog") TxLog txLog);
+
+    int saveCancelTxLog(@Param("txLog") TxLog txLog);
 }

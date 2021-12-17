@@ -7,7 +7,17 @@ public class TxLog {
 
     private String txNo;
 
+    private Integer txType;
+
     private Date createTime;
+
+    public Integer getTxType() {
+        return txType;
+    }
+
+    public void setTxType(Integer txType) {
+        this.txType = txType;
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +48,7 @@ public class TxLog {
         return "TxLog{" +
                 "id=" + id +
                 ", txNo='" + txNo + '\'' +
+                ", txType=" + txType +
                 ", createTime=" + createTime +
                 '}';
     }

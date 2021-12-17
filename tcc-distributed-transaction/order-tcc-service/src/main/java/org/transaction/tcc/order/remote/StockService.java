@@ -1,9 +1,10 @@
 package org.transaction.tcc.order.remote;
 
+import org.dromara.hmily.annotation.Hmily;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.transaction.tcc.order.dto.SubmitOrderDTO;
+import org.transaction.tcc.order.dto.StockDTO;
 
 /**
  * @author liupenghui
@@ -17,6 +18,7 @@ public interface StockService {
      * @param dto
      * @return
      */
+    @Hmily
     @PostMapping(value = "/stock/deleteStock")
-    String deleteStock(@RequestBody SubmitOrderDTO dto);
+    String deleteStock(@RequestBody StockDTO dto);
 }

@@ -9,7 +9,17 @@ public class Stock {
 
     private Integer totalCount;
 
+    private Integer freezenCount;
+
     private Date createTime;
+
+    public Integer getFreezenCount() {
+        return freezenCount;
+    }
+
+    public void setFreezenCount(Integer freezenCount) {
+        this.freezenCount = freezenCount;
+    }
 
     public Long getId() {
         return id;
@@ -41,5 +51,16 @@ public class Stock {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", totalCount=" + totalCount +
+                ", freezenCount=" + freezenCount +
+                ", createTime=" + createTime +
+                '}';
     }
 }

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="org.transaction.tcc.stock.entity.TxLog" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="tx_no" property="txNo" jdbcType="VARCHAR" />
+    <result column="tx_type" property="txType" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -65,9 +66,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, tx_no, create_time
+    id, tx_no, tx_type, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.transaction.stock.entity.TxLogExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.transaction.tcc.stock.entity.TxLogExample" >
     select
     <if test="distinct" >
       distinct
@@ -91,19 +92,19 @@
     delete from tx_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="org.transaction.stock.entity.TxLogExample" >
+  <delete id="deleteByExample" parameterType="org.transaction.tcc.stock.entity.TxLogExample" >
     delete from tx_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.transaction.stock.entity.TxLog" >
+  <insert id="insert" parameterType="org.transaction.tcc.stock.entity.TxLog" >
     insert into tx_log (id, tx_no, create_time
       )
     values (#{id,jdbcType=BIGINT}, #{txNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.transaction.stock.entity.TxLog" >
+  <insert id="insertSelective" parameterType="org.transaction.tcc.stock.entity.TxLog" >
     insert into tx_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -128,7 +129,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.transaction.stock.entity.TxLogExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="org.transaction.tcc.stock.entity.TxLogExample" resultType="java.lang.Integer" >
     select count(*) from tx_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -160,7 +161,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.transaction.stock.entity.TxLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="org.transaction.tcc.stock.entity.TxLog" >
     update tx_log
     <set >
       <if test="txNo != null" >
@@ -172,7 +173,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.transaction.stock.entity.TxLog" >
+  <update id="updateByPrimaryKey" parameterType="org.transaction.tcc.stock.entity.TxLog" >
     update tx_log
     set tx_no = #{txNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
@@ -180,10 +181,18 @@
   </update>
 
   <select id="getCount" resultType="java.lang.Integer">
-    select count(*) from tx_log where tx_no = #{txNo}
+    select count(*) from tx_log where tx_no = #{txNo} and tx_type = #{txType}
   </select>
 
-  <insert id="saveTxLog" parameterType="org.transaction.stock.entity.TxLog">
-    insert into `tx_log` (tx_no, create_time) values (#{txLog.txNo}, #{txLog.createTime});
+  <insert id="saveTryTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
+    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 0);
+  </insert>
+
+  <insert id="saveConfirmTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
+    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 1);
+  </insert>
+
+  <insert id="saveCancelTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
+    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 2);
   </insert>
 </mapper>

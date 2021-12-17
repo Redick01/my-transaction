@@ -1,12 +1,14 @@
 package org.transaction.tcc.stock.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import org.transaction.tcc.stock.entity.TxLog;
 import org.transaction.tcc.stock.entity.TxLogExample;
 
 
 import java.util.List;
 
+@Repository
 public interface TxLogMapper {
     int countByExample(TxLogExample example);
 
@@ -30,7 +32,11 @@ public interface TxLogMapper {
 
     int updateByPrimaryKey(TxLog record);
 
-    int getCount(@Param("txNo") String txNo);
+    int getCount(@Param("txNo") String txNo, @Param("txType") Integer txType);
 
-    int saveTxLog(@Param("txLog")TxLog txLog);
+    int saveTryTxLog(@Param("txLog") TxLog txLog);
+
+    int saveConfirmTxLog(@Param("txLog") TxLog txLog);
+
+    int saveCancelTxLog(@Param("txLog") TxLog txLog);
 }

@@ -14,9 +14,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @RuubypayLogEnabled
 @EnableDiscoveryClient
 @EnableFeignClients
-public class StockServer {
+public class StockTccServer {
 
     public static void main(String[] args) {
-        SpringApplication.run(StockServer.class, args);
+        SpringApplication.run(StockTccServer.class, args);
     }
 }

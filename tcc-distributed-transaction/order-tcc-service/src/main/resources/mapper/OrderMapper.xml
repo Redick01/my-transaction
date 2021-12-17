@@ -16,4 +16,8 @@
   <delete id="deleteByOrderNo">
     delete from `order` where order_no = #{orderNo};
   </delete>
+
+  <update id="confirmOrder">
+    update `order` set pay_count = #{count} where order_no = #{orderNo};
+  </update>
 </mapper>

@@ -12,4 +12,6 @@ public interface OrderMapper {
     int saveOrder(@Param("order") Order order);
 
     int deleteByOrderNo(@Param("orderNo") String orderNo);
+
+    int confirmOrder(@Param("orderNo") String orderNo, @Param("count") int count);
 }

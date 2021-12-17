@@ -3,6 +3,16 @@ server:
 spring:
   application:
     name: stock-tcc-service
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    include: db
+    active: db
+  output:
+    ansi:
+      enabled: detect
+
+
 eureka:
   client:
     serviceUrl:

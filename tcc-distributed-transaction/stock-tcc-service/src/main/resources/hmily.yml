@@ -1,9 +1,9 @@
 hmily:
   server:
     configMode: local
-    appName: order-tcc-service
+    appName: stock-tcc-service
   config:
-    appName: order-tcc-service
+    appName: stock-tcc-service
     serializer: kryo
     contextTransmittalMode: threadLocal
     scheduledThreadMax: 16

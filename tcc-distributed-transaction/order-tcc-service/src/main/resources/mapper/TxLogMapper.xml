@@ -2,10 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.transaction.tcc.order.mapper.TxLogMapper" >
     <select id="getCount" resultType="java.lang.Integer">
-        select count(*) from tx_log where tx_no = #{txNo}
+        select count(*) from tx_log where tx_no = #{txNo} and tx_type = #{txType}
     </select>
 
-    <insert id="saveTxLog" parameterType="org.transaction.tcc.order.entity.TxLog">
-        insert into `tx_log` (tx_no, create_time) values (#{txLog.txNo}, #{txLog.createTime});
+    <insert id="saveTryTxLog" parameterType="org.transaction.tcc.order.entity.TxLog">
+        insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 0);
+    </insert>
+
+    <insert id="saveConfirmTxLog" parameterType="org.transaction.tcc.order.entity.TxLog">
+        insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 1);
+    </insert>
+
+    <insert id="saveCancelTxLog" parameterType="org.transaction.tcc.order.entity.TxLog">
+        insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 2);
     </insert>
 </mapper>
