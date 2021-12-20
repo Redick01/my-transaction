@@ -74,7 +74,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tx_log
+    from tcc_tx_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,27 +85,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from tx_log
+    from tcc_tx_log
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from tx_log
+    delete from tcc_tx_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="org.transaction.tcc.stock.entity.TxLogExample" >
-    delete from tx_log
+    delete from tcc_tx_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="org.transaction.tcc.stock.entity.TxLog" >
-    insert into tx_log (id, tx_no, create_time
+    insert into tcc_tx_log (id, tx_no, create_time
       )
     values (#{id,jdbcType=BIGINT}, #{txNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.transaction.tcc.stock.entity.TxLog" >
-    insert into tx_log
+    insert into tcc_tx_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -130,13 +130,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="org.transaction.tcc.stock.entity.TxLogExample" resultType="java.lang.Integer" >
-    select count(*) from tx_log
+    select count(*) from tcc_tx_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tx_log
+    update tcc_tx_log
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -153,7 +153,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tx_log
+    update tcc_tx_log
     set id = #{record.id,jdbcType=BIGINT},
       tx_no = #{record.txNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -162,7 +162,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="org.transaction.tcc.stock.entity.TxLog" >
-    update tx_log
+    update tcc_tx_log
     <set >
       <if test="txNo != null" >
         tx_no = #{txNo,jdbcType=VARCHAR},
@@ -174,25 +174,25 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.transaction.tcc.stock.entity.TxLog" >
-    update tx_log
+    update tcc_tx_log
     set tx_no = #{txNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
   <select id="getCount" resultType="java.lang.Integer">
-    select count(*) from tx_log where tx_no = #{txNo} and tx_type = #{txType}
+    select count(*) from tcc_tx_log where tx_no = #{txNo} and tx_type = #{txType}
   </select>
 
   <insert id="saveTryTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
-    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 0);
+    insert into `tcc_tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 0);
   </insert>
 
   <insert id="saveConfirmTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
-    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 1);
+    insert into `tcc_tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 1);
   </insert>
 
   <insert id="saveCancelTxLog" parameterType="org.transaction.tcc.stock.entity.TxLog">
-    insert into `tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 2);
+    insert into `tcc_tx_log` (tx_no, create_time, tx_type) values (#{txLog.txNo}, #{txLog.createTime}, 2);
   </insert>
 </mapper>

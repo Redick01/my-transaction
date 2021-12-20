@@ -1,6 +1,7 @@
 package org.transaction.tcc.order.controller;
 
-import com.ruubypay.log.annotation.LogMarker;
+import com.redick.annotation.LogMarker;
+import com.redick.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,12 @@ public class OrderController {
     @LogMarker(businessDescription = "提交订单", interfaceName = "/sc-tcc/submitOrder")
     public String submitOrder(@RequestBody SubmitOrderDTO dto) {
         String orderNo = UUID.randomUUID().toString();
-        orderService.saveOrder(new StockDTO(orderNo, dto.getProductId(), dto.getPayCount(), UUID.randomUUID().toString()));
-        return "SUCCESS";
+        try {
+            orderService.saveOrder(new StockDTO(orderNo, dto.getProductId(), dto.getPayCount(), UUID.randomUUID().toString()));
+            return "SUCCESS";
+        } catch (Exception e) {
+            log.error(LogUtil.exceptionMarker(), "异常", e);
+            return "ERROR";
+        }
     }
 }

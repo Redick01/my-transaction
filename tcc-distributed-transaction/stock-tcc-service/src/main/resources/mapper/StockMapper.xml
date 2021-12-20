@@ -73,21 +73,21 @@
   <select id="getStockByProductId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from stock
+    from tcc_stock
     where product_id = #{productId}
   </select>
 
   <update id="deleteStock">
-    update stock set total_count = total_count - #{payCount}, freezen_count = freezen_count - #{payCount}
+    update tcc_stock set total_count = total_count - #{payCount}, freezen_count = freezen_count - #{payCount}
     where product_id = #{productId}
   </update>
 
   <update id="freezeStock">
-    update stock set freezen_count = freezen_count + #{freezeCount}
+    update tcc_stock set freezen_count = freezen_count + #{freezeCount}
     where product_id = #{productId}
   </update>
   <update id="unFreezeStock">
-    update stock set freezen_count = freezen_count - #{freezeCount}
+    update tcc_stock set freezen_count = freezen_count - #{freezeCount}
     where product_id = #{productId}
   </update>
 </mapper>

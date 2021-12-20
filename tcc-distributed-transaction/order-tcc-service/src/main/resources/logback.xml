@@ -10,7 +10,7 @@
             <level>${STDOUT_LEVEL}</level>
         </filter>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>traceId</includeMdcKeyName>
             <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
     </appender>
@@ -58,7 +58,7 @@
             <totalSizeCap>${FILE_DEBUG_TOTAL_SIZE}</totalSizeCap>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>traceId</includeMdcKeyName>
             <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
         <prudent>false</prudent>
@@ -83,7 +83,7 @@
             <totalSizeCap>${FILE_ERROR_TOTAL_SIZE}</totalSizeCap>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeMdcKeyName>x_global_session_id</includeMdcKeyName>
+            <includeMdcKeyName>traceId</includeMdcKeyName>
             <includeMdcKeyName>request_type</includeMdcKeyName>
         </encoder>
         <prudent>false</prudent>
@@ -99,6 +99,8 @@
     <logger name="com.fasterxml" level="ERROR"/>
     <logger name="com.alibaba" level="WARN"/>
     <logger name="com.netflix" level="WARN"/>
+    <logger name="org.mongodb.driver" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
 
     <root>
         <appender-ref ref="STDOUT"/>

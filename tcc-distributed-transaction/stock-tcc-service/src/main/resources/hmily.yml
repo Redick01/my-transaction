@@ -34,3 +34,9 @@ repository:
     connectionTimeout: 30000
     idleTimeout: 600000
     maxLifetime: 1800000
+
+remote:
+  zookeeper:
+    serverList: 127.0.0.1:2181
+    fileExtension: yml
+    path: /hmily/tcc

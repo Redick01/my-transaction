@@ -1,6 +1,6 @@
 package org.transaction.tcc.order;
 
-import com.ruubypay.miss.log.annotation.RuubypayLogEnabled;
+import com.redick.boot.annotation.LogHelperEnable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2021/12/7 2:18 下午
  */
 @SpringBootApplication
-@RuubypayLogEnabled
+@LogHelperEnable
 @EnableDiscoveryClient
 @EnableFeignClients
 @ComponentScan(basePackages = {"org.transaction.tcc"})

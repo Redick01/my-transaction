@@ -1,6 +1,6 @@
 package org.transaction.tcc.stock.controller;
 
-import com.ruubypay.log.annotation.LogMarker;
+import com.redick.annotation.LogMarker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,7 @@ public class StockController {
         try {
             stockService.tryDeleteStock(dto);
         } catch (Exception e) {
-            return "FAILED";
+            throw new Exception("库存不足");
         }
         return "SUCCESS";
     }
