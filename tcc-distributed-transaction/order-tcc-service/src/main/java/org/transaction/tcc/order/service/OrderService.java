@@ -11,5 +11,5 @@ public interface OrderService {
 
 
     @Hmily
-    void saveOrder(StockDTO stockDTO);
+    void saveOrder(StockDTO stockDTO) throws Exception;
 }

@@ -14,7 +14,6 @@
     <modules>
         <module>order-tcc-service</module>
         <module>stock-tcc-service</module>
-        <module>stock-api</module>
     </modules>
 
     <properties>

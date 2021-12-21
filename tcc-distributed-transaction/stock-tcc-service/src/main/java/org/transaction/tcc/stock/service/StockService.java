@@ -14,5 +14,5 @@ public interface StockService {
 
 
     @Hmily
-    void tryDeleteStock(StockDTO dto) throws Exception;
+    String tryDeleteStock(StockDTO dto) throws Exception;
 }

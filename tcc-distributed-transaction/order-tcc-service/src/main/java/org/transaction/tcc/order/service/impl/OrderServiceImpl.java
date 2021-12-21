@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @HmilyTCC(confirmMethod = "confirm", cancelMethod = "cancel")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveOrder(StockDTO stockDTO) {
+    public void saveOrder(StockDTO stockDTO) throws Exception {
         log.info(LogUtil.marker(), "保存订单try方法执行");
         String txNo = stockDTO.getTxNo();
         // 检查事务悬挂
@@ -52,7 +52,12 @@ public class OrderServiceImpl implements OrderService {
             saveTxLog(txNo, 0);
         }
         // 扣减库存
-        stockService.deleteStock(stockDTO);
+        log.info(LogUtil.funcStartMarker(stockDTO), "发起扣减库存");
+        String result = stockService.deleteStock(stockDTO);
+        log.info(LogUtil.funcEndMarker(result), "扣减库存结果");
+        if ("STOCK_ERROR".equals(result)) {
+            throw new Exception("STOCK_ERROR");
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)

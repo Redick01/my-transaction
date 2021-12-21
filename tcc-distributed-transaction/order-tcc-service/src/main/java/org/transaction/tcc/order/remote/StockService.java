@@ -20,5 +20,5 @@ public interface StockService {
      */
     @Hmily
     @PostMapping(value = "/stock/deleteStock")
-    String deleteStock(@RequestBody StockDTO dto);
+    String deleteStock(@RequestBody StockDTO dto) throws Exception;
 }

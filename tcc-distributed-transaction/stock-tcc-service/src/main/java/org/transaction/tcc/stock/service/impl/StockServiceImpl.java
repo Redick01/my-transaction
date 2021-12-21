@@ -32,31 +32,33 @@ public class StockServiceImpl implements StockService {
     @HmilyTCC(confirmMethod = "confirm", cancelMethod = "cancel")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
-    public void tryDeleteStock(StockDTO dto) throws Exception {
+    public String tryDeleteStock(StockDTO dto) {
         // 幂等处理
         if (isExistTx(dto.getTxNo(), 0)) {
             log.info(LogUtil.marker(dto.getTxNo()), "try方法已经执行过");
-            return;
+            return "FAILED";
         }
         // 悬挂处理
         if (isExistTx(dto.getTxNo(), 1) || isExistTx(dto.getTxNo(), 2)) {
             log.info(LogUtil.marker(dto.getTxNo()), "confirm方法或cancel方法已经执行过");
-            return;
-        }
-        // 检查库存
-        Stock stock = stockMapper.getStockByProductId(dto.getProductId());
-        if (dto.getPayCount() > (stock.getTotalCount() - stock.getFreezenCount())) {
-            log.info(LogUtil.marker(dto.getTxNo()), "库存不足");
-            throw new Exception("库存不足");
+            return "FAILED";
         }
         // 冻结库存
         stockMapper.freezeStock(dto.getProductId(), dto.getPayCount());
+        // 检查库存
+        Stock stock = stockMapper.getStockByProductId(dto.getProductId());
+        if (stock.getFreezenCount() > stock.getTotalCount()) {
+            log.info(LogUtil.marker(dto.getTxNo()), "库存不足");
+            return "STOCK_ERROR";
+        }
         // 保存事务日志
         saveTxLog(dto.getTxNo(), 0);
+        return "SUCCESS";
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void confirm(StockDTO dto) {
+        log.info("Stock Confirm处理");
         // 幂等处理
         if (isExistTx(dto.getTxNo(), 1)) {
             log.info(LogUtil.marker(dto.getTxNo()), "try方法已经执行过");
@@ -68,6 +70,7 @@ public class StockServiceImpl implements StockService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cancel(StockDTO dto) {
+        log.info("Stock Cancel处理");
         // 幂等处理
         if (isExistTx(dto.getTxNo(), 2)) {
             log.info(LogUtil.marker(dto.getTxNo()), "try方法已经执行过");

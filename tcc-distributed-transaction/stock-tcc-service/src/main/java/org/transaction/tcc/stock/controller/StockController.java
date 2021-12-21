@@ -23,11 +23,6 @@ public class StockController {
     @LogMarker(businessDescription = "扣减库存", interfaceName = "/stock/deleteStock")
     @PostMapping(value = "/stock/deleteStock")
     public String deleteStock(@RequestBody StockDTO dto) throws Exception {
-        try {
-            stockService.tryDeleteStock(dto);
-        } catch (Exception e) {
-            throw new Exception("库存不足");
-        }
-        return "SUCCESS";
+        return stockService.tryDeleteStock(dto);
     }
 }
