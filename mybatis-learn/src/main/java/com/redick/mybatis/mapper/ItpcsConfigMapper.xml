@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redick.mybatis.mapper.ItpcsConfigMapper">
+    <select id="selectAll" resultType="com.redick.mybatis.mapper.ItpcsConfig">
+        select `ID` as id ,
+               `Name` as name ,
+               `Value` as value ,
+               `Remark` as remark from itpcs_config;
+    </select>
+</mapper>

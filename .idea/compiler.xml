@@ -12,6 +12,7 @@
         <module name="stock-tcc-service" />
         <module name="spring-transaction" />
         <module name="order-service" />
+        <module name="mybatis-learn" />
         <module name="eureka-server" />
       </profile>
     </annotationProcessing>

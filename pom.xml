@@ -13,6 +13,7 @@
         <module>spring-transaction</module>
         <module>tcc-distributed-transaction</module>
         <module>eureka-server</module>
+        <module>mybatis-learn</module>
     </modules>
 
     <properties>
