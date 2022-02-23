@@ -1,6 +1,7 @@
 package com.redick.mybatis;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.redick.mybatis.interceptor.DefaultInterceptor;
 import com.redick.mybatis.mapper.ItpcsConfig;
 import com.redick.mybatis.mapper.ItpcsConfigMapper;
 import org.apache.ibatis.mapping.Environment;
@@ -55,6 +56,7 @@ public class SqlSessionFactoryLearn {
         Configuration configuration = new Configuration(environment);
         //configuration.addMapper(ItpcsConfigMapper.class);
         configuration.addMappers("com/redick/mybatis/mapper", ItpcsConfigMapper.class);
+        configuration.addInterceptor(new DefaultInterceptor());
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         List<ItpcsConfig> list = sqlSession.selectList("com.redick.mybatis.mapper.ItpcsConfigMapper.selectAll");
